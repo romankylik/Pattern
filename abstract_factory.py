@@ -116,27 +116,28 @@ class SportsFactory(AbstractFactory):
 
 """Клієнтський клас створення одягу"""
 class Application:
-    def __init__(self, factory: AbstractFactory):
-        self._factory = factory
+    @staticmethod
+    def select_factory(style_name: str) -> AbstractFactory:
+        factory_dict = {
+            "Classic": ClassicFactory,
+            "Sports": SportsFactory
+        }
+        return factory_dict[style_name]()
 
-    def create_clothes(self):     #створюємо одяг
-        sweater = self._factory.get_sweater()
-        pants = self._factory.get_pants()
-        shose = self._factory.get_shose()
+
+    def create_clothes(self, style: str):       #створюємо одяг
+        sweater = self.select_factory(style).get_sweater()
+        pants = self.select_factory(style).get_pants()
+        shose = self.select_factory(style).get_shose()
         sweater.create()
         pants.create()
         shose.create()
 
 
-def create_factory(style_name: str) -> AbstractFactory:
-    factory_dict = {
-        "Classic": ClassicFactory,
-        "Sports" : SportsFactory
 
-    }
-    return factory_dict[style_name]()
 
 if __name__ == '__main__':
-    clas_clothes = create_factory("Sports")
-    clothes = Application(clas_clothes)
-    clothes.create_clothes()
+
+    app = Application()
+    app.create_clothes("Classic")
+    app.create_clothes("Sports")

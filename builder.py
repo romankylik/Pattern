@@ -12,7 +12,10 @@ class Auto:
 
 
     def __str__(self):
-        info: str = f"Pizza name: {self.name} \n" \
+        info: str = f"Auto name: {self.name} \n" \
+                    f"body type: {self.body} \n" \
+                    f"engine type: {self.engine} \n" \
+                    f"comfort: {self.comfort}"
 
         return info
 
@@ -24,10 +27,10 @@ class Auto:
 class Builder(ABC):
 
     @abstractmethod
-    def make_body (self) -> None: pass   #виготовити кузов авто
+    def make_body (self) -> None: pass   #кузов авто
 
     @abstractmethod
-    def add_engine(self) -> None: pass  #вставити двигун
+    def add_engine(self) -> None: pass  # двигун
     @abstractmethod
     def add_comfort(self) -> None: pass #добавити комплектацію комфорт
 
@@ -37,7 +40,7 @@ class Builder(ABC):
 
 
 """
-Реалізація конкретного монтувальника автомобіля
+Реалізація конкретного монтувальника автомобіля 1
 """
 
 
@@ -47,16 +50,35 @@ class Passat_b6_builder(Builder):
         self.auto = Auto("Passat_b6")
 
     def make_body(self) -> None:
-        self.make_body = "Sedan"
+        self.auto.body = "Sedan"
 
     def add_engine(self) -> None:
-        self.add_engine = "Disel 2"
-
+        self.auto.engine = "Disel 2.0"
     def add_comfort(self) -> None:
-        self.add_comfort = ["Круїз", "Датчик дощу", "Підігрів сидінь"]
+        self.auto.comfort = ["Круїз", "Датчик дощу", "Підігрів сидінь"]
     def get_auto(self) -> Auto:
         return self.auto
 
+
+"""
+Реалізація конкретного монтувальника автомобіля 2
+"""
+
+
+class Skoda_Fabia_builder(Builder):
+
+    def __init__(self):
+        self.auto = Auto("Skoda Fabia")
+
+    def make_body(self) -> None:
+        self.auto.body = "Comby"
+
+    def add_engine(self) -> None:
+        self.auto.engine = "Gas 1.4"
+    def add_comfort(self) -> None:
+        self.auto.comfort = ["Клімат контроль", "Круїз", "Датчик дощу", "Підігрів сидінь"]
+    def get_auto(self) -> Auto:
+        return self.auto
 
 
 
@@ -81,10 +103,11 @@ class Director:
 if __name__ == '__main__':
 
     director = Director()
-    for it in (Passat_b6_builder,):
+    for it in (Passat_b6_builder, Skoda_Fabia_builder):
         builder = it()
         director.set_builder(builder)
         director.make_auto()
-        pizza = builder.get_auto()
-        print(pizza)
-        print('---------------------------')
+        auto = builder.get_auto()
+        print(auto)
+        print(" ")
+

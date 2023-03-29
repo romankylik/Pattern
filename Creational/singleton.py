@@ -1,9 +1,9 @@
 def singleton(cls):
-    __instances = {}
+    _instances = {}
     def get_instance(*args, **kwargs):
-        if cls not in __instances:
-            __instances[cls] = cls(*args, **kwargs)
-        return __instances[cls]
+        if cls not in _instances:
+            _instances[cls] = cls(*args, **kwargs)
+        return _instances[cls]
     return get_instance
 
 @singleton
@@ -13,6 +13,7 @@ class Notebook:
     Також ти повинен мати доступ до записника завжди під рукою( глобальна точка доступу)"""
 
     def set_note(self, text):
+        print(f'Записали нотатку {text}')
         """записуємо нотатку в текстовий файл"""
 
 
@@ -22,3 +23,5 @@ b = Notebook()
 print(a) # Output: 1
 print(b) # Output: 1
 print(a == b)
+#a.set_note("1234")
+Notebook

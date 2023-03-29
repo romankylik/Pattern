@@ -28,4 +28,4 @@ new_group.name_group, new_group.tutor = "Math", "Олег Богданович"
 new_group.students.append("учень3") # Або ж new_group.students = ["учень3", "учень4", "учень5"]
 
 print(group)
-print(new_group)
+print(type(new_group))

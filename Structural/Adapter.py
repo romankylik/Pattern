@@ -5,7 +5,7 @@ def roulette_in_inch(cls):                                       # При дек
             setattr(self.wrapped, "length", getattr(self.wrapped, "length") * 39.37)
             setattr(self.wrapped, "units", "inch")
 
-        def __getattr__(self, name) :                             # При извлечении атрибутов
+        def __getattr__(self, name):                             # При извлечении атрибутов
             return getattr(self.wrapped, name)
     return Wrapper
 

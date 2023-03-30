@@ -1,84 +1,59 @@
 from abc import ABC, abstractmethod
 
-"""Загальні інтерфейси для продуктів """
-class AbstractPants(ABC):
-    def __init__(self, pants: str):
-        self._pants = pants
-    @abstractmethod
-    def create(self): pass
+"""Загальні інтерфейси для светра та взуття"""
 
 class AbstractSweater(ABC):
     def __init__(self, sweater: str):
         self._sweater = sweater
-    @abstractmethod
-    def create(self): pass
+
+    def create(self):
+        return self._sweater
+    def __str__(self):
+        return self.create()
 
 class AbstractShose(ABC):
     def __init__(self, shose: str):
         self._shose = shose
-    @abstractmethod
-    def create(self): pass
-
-
-"""Одяг класичного стилю """
-
-
-class ClassicPants(ABC):
-    def __init__(self):
-        self._pants = "Classic Pants"
-
 
     def create(self):
-        print(f'Створено {self._pants}')
+        return self._shose
+    def __str__(self):
+        return self.create()
 
 
-class ClassicSweater(ABC):
+"""Створюємо одяг Класичного стилю"""
+
+class ClassicSweater(AbstractSweater):
     def __init__(self):
         self._sweater = "Classic Sweater"
 
     def create(self):
-        print(f'Створено {self._sweater}')
+        return self._sweater
 
-class ClassicShose(ABC):
+
+class ClassicShose(AbstractShose):
     def __init__(self):
         self._shose = "Classic Shose"
-    def create(self):
-        print(f'Створено {self._shose}')
 
 
 """Одяг спортивного стилю """
 
-
-class SportsPants(ABC):
-    def __init__(self):
-        self._pants = "Sports Pants"
-
-
-    def create(self):
-        print(f'Створено {self._pants}')
-
-
-class SportsSweater(ABC):
+class SportsSweater(AbstractSweater):
     def __init__(self):
         self._sweater = "Sports Sweater"
 
-    def create(self):
-        print(f'Створено {self._sweater}')
 
-class SportsShose(ABC):
+class SportsShose(AbstractShose):
     def __init__(self):
         self._shose = "Sports Shose"
-    def create(self):
-        print(f'Створено {self._shose}')
+
 
 
 
 """Базовий клас абстрактної фабрики одягу"""
 class AbstractFactory(ABC):
-
-    @abstractmethod
-    def get_pants(self) -> AbstractPants:  #створити штани
-        pass
+    def __init__(self, style):
+        self.style = style
 
     @abstractmethod
     def get_sweater(self) -> AbstractSweater:  #створити светер
@@ -87,12 +62,12 @@ class AbstractFactory(ABC):
     @abstractmethod
     def get_shose(self) -> AbstractShose:    #створити взуття
         pass
+    def __str__(self):
+        return f'Ви замовляли одяг стилю {self.style}? ось вам {self. get_shose()}  та {self. get_sweater()} '
 
 """Конкретна фабрика класичного одягу"""
 
 class ClassicFactory(AbstractFactory):
-    def get_pants(self) -> ClassicPants:
-        return ClassicPants()
 
     def get_sweater(self) -> ClassicSweater:
         return ClassicSweater()
@@ -104,8 +79,6 @@ class ClassicFactory(AbstractFactory):
 """Конкретна фабрика спортивного одягу"""
 
 class SportsFactory(AbstractFactory):
-    def get_pants(self) -> SportsPants:
-        return SportsPants()
 
     def get_sweater(self) -> SportsSweater:
         return SportsSweater()
@@ -114,30 +87,29 @@ class SportsFactory(AbstractFactory):
         return SportsShose()
 
 
-"""Клієнтський клас створення одягу"""
-class Application:
-    @staticmethod
-    def select_factory(style_name: str) -> AbstractFactory:
-        factory_dict = {
-            "Classic": ClassicFactory,
-            "Sports": SportsFactory
+"""клієнтський код"""
+
+
+
+def create_clothes(style: str):       #створюємо одяг
+
+    factory_dict = {
+        "Cl": ClassicFactory("Classic"),
+        "Sp": SportsFactory("Sports")
         }
-        return factory_dict[style_name]()
-
-
-    def create_clothes(self, style: str):       #створюємо одяг
-        sweater = self.select_factory(style).get_sweater()
-        pants = self.select_factory(style).get_pants()
-        shose = self.select_factory(style).get_shose()
-        sweater.create()
-        pants.create()
-        shose.create()
-
-
+    return factory_dict[style]
 
 
 if __name__ == '__main__':
 
-    app = Application()
-    app.create_clothes("Classic")
-    app.create_clothes("Sports")
+    app = create_clothes('Cl')
+    print(app)
+
+
+
+"""Ми створили інтерфейси двох продуктів ( светер та взуття). 
+Дальше реалізували інтерфес, для кожного продукту створили по одній моделі 
+    спортивного продутку( спортивний светер та взуття) та по одній моделі класичного продукту( спортивний светер та взуття).
+Дальше створили інтерфейс фабрики яка створюватиме нам екземпляри двох продуктів (сетер, взуття)  одинакового стилю.
+Реалізували інтерфес, створили фабрики класичного та спортивного стилю.
+Дальше клієнський код, якому ти задаєш одяг якого стилю хочеш отримати, він викликає фабрику конкретного стилю, яка повертає два продукти цього стилю"""

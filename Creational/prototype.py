@@ -1,12 +1,12 @@
 from abc import ABC, abstractmethod
-
+from typing import List
 class Prototype(ABC):
     @abstractmethod
     def clone(self): pass
 
 class StudentsGroup(Prototype):
     """Мій приклад це прототип робочого класу(групи) в школі або інституті"""
-    def __init__(self, name_group, tutor, students: []):
+    def __init__(self, name_group, tutor, students: List[str]):
         self.name_group = name_group
         self.tutor = tutor
         self.students = students

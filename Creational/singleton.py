@@ -20,8 +20,8 @@ class Notebook:
 
 a = Notebook()
 b = Notebook()
-print(a) # Output: 1
-print(b) # Output: 1
+print(id(a)) # Output: 1
+print(id(b)) # Output: 1
 print(a == b)
 #a.set_note("1234")
 Notebook

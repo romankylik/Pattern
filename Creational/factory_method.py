@@ -12,14 +12,12 @@ class Product:
 class  PlaneProduct(Product):
     def __init__(self):
         self.type = "Plane"
-    def __str__(self) -> str:
-        return self.type
+
 
 class  TankProduct(Product):
     def __init__(self):
         self.type_pr = "Tank"
-    def __str__(self) -> str:
-        return self.type_pr
+
 
 
 """Інтерфейс фабрики (творець) із фабричним методом."""
@@ -43,8 +41,6 @@ class FactoryTank(Creator):
     def some_logik (self):
         """Певна логіка творця, та виклик фабричного методу"""
         return self.factory_method()
-    def __str__(self):
-        return f'Фабрика створила {self.some_logik()}'
 
 class FactoryPlane(Creator):
     def factory_method(self) -> Product:
@@ -53,9 +49,6 @@ class FactoryPlane(Creator):
     def some_logik (self):
         """Певна логіка творця, та виклик фабричного методу"""
         return self.factory_method()
-
-    def __str__(self):
-        return f'Фабрика створила {self.some_logik()}'
 
 
 def client_code(creator: str) -> None:

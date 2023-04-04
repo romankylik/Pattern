@@ -1,16 +1,23 @@
+from abc import ABC, abstractmethod
+class ABCMenu(ABC):
+    """  Інтерфейс меню    """
+    @abstractmethod
+    def get_name(self):
+        pass
 
-"""Різні типи меню .  Сворення інтерфейсу меню упущено"""
-class VeganMenu():
+
+"""Різні типи меню """
+class VeganMenu(ABCMenu):
     def get_name(self):
         return "Вегетаріанське меню"
 
 
-class NotVeganMenu():
+class NotVeganMenu(ABCMenu):
     def get_name(self):
         return "Не вегетаріанське меню"
 
 
-class MixedMenu():
+class MixedMenu(ABCMenu):
     def get_name(self):
         return "Змішане меню"
 
@@ -24,8 +31,25 @@ class Kitchen:
 
     def call_waiter(self):
         print("Кухня віддає замовлену їду офіціанту")
+class ABC_Client(ABC):
+    """Інтерфейс клієнта """
+    @abstractmethod
+    def request_menu(self, menu: ABCMenu):
+        pass
+    @abstractmethod
+    def form_order(self) -> dict:
+        pass
 
-class Client():
+    @abstractmethod
+    def eating_food(self):
+        pass
+
+    @abstractmethod
+    def get_name(self):
+       pass
+
+
+class Client(ABC_Client):
     """
     Клас клієнта піцерії
     """

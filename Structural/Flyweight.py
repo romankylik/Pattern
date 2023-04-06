@@ -45,14 +45,14 @@ class Creation_study_group:
 
     def __init__(self, flyweight_factory: FlyWeightFactory):
         self.flyweight_factory = flyweight_factory
-        self.contexts = []
+        self.all_persons = []
 
     def make_person(self, unique_state, shared_state) -> Person:
         flyweight = self.flyweight_factory.get_flyweight(shared_state)
-        context = Person(unique_state, flyweight)
-        self.contexts.append(context)
+        person = Person(unique_state, flyweight)
+        self.all_persons.append(person)
 
-        return context
+        return person
 
 
 if __name__ == "__main__":

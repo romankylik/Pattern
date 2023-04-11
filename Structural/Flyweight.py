@@ -13,7 +13,7 @@ class Person:
 
     def __init__(self, unique_state, flyweight: Flyweight):
         self.unique_state = unique_state   #Унікальні параметри персони
-        self.flyweight = flyweight   # Незмінні параметри ( легковес )
+        self.flyweight = flyweight   # Спільні параметри людей( легковес )
 
     def __str__(self):
         return f" Паспорт конкретної людини: {self.unique_state} \n" \

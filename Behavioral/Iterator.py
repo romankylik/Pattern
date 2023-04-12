@@ -18,11 +18,12 @@ class My_Iterator(Iterator):
         self._person = person
         self._index: int = 0
         self._alphabetical_iter = alphabetical_iter
+        self.alphabetical_sort_list = sorted(self._person, key=lambda x: x.name) # Відсортований список в алфавітному порядку
 
     def __next__(self) -> PersonItem:
         try:
             if self._alphabetical_iter:
-                person_item = sorted(self._person, key=lambda x: x.name)[self._index]
+                person_item = self.alphabetical_sort_list [self._index]
                 self._index += 1
             else:
                 person_item = self._person[self._index]

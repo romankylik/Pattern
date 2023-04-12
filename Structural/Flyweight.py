@@ -1,7 +1,7 @@
 class Flyweight:
     """Клас легковеса, (стале значення для всіх обєктів, внутрішній стан)"""
     def __init__(self, shared_state):
-        self.shared_state = shared_state   #спільний стан
+        self.shared_state = shared_state   #спільний стан (зовнішній стан)
 
     def __str__(self):
         return str(self.shared_state)

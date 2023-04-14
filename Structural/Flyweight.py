@@ -9,7 +9,7 @@ class Flyweight:
 
 class Person:
     """Персона.
-    Незмінні дані об’єкта прийнято називати «внутрішнім станом». Всі інші дані — це «зовнішній стан»."""
+    Незмінні дані об’єктів прийнято називати «внутрішнім станом». Всі інші дані — це «зовнішній стан»."""
 
     def __init__(self, unique_state, flyweight: Flyweight):
         self.unique_state = unique_state   #Унікальні параметри персони
@@ -22,22 +22,27 @@ class Person:
 
 class FlyWeightFactory:
 
-    def __init__(self):
-        self.flyweights = []   #_Списоск легковесов
+    _flyweights: dict[str, Flyweight] = {}
 
-    def get_flyweight(self, shared_st) -> Flyweight:
+    def __init__(self, initial_flyweights) -> None:
 
-        one_flyweights = list(filter(lambda x: x.shared_state == shared_st, self.flyweights))
-        if one_flyweights:
-            return one_flyweights[0]
-        else:
-            one_flyweight = Flyweight(shared_st)
-            self.flyweights.append(one_flyweight)
-            return one_flyweight
+        for state, flyweight in initial_flyweights.items():
+            self._flyweights[state] = Flyweight(flyweight)
+
+    def get_flyweight(self, shared_st: dict) -> Flyweight:
+        key = list(shared_st.keys())[0]
+        if not self._flyweights.get(key):
+            self._flyweights[key] = Flyweight(shared_st[key])
+        return self._flyweights[key]
 
     @property
     def total(self):
-        return len(self.flyweights)
+        return len(self._flyweights)
+
+    def list_flyweights(self) -> None:
+        print(f"FlyweightFactory: Я маю {len(self._flyweights)} легковесов:")
+        for key, value in self._flyweights.items():
+            print(f"Стан: {key}, легковес: {value}")
 
 
 class Creation_study_group:
@@ -56,10 +61,10 @@ class Creation_study_group:
 
 
 if __name__ == "__main__":
-    flyweight_factory = FlyWeightFactory()
+    flyweight_factory = FlyWeightFactory({"місто1": 'м.Київ'})
     group_maker = Creation_study_group(flyweight_factory)
 
-    shared_states = ['м.Київ', 'м.Одеса', 'м.Львів']                           #- спільне( внутрішній стан)
+    shared_states = [{"місто1": 'м.Київ'}, {"місто2": 'м.Одеса'},{ "місто3": 'м.Львів'}]                      #- спільне( внутрішній стан)
     unique_states = ['КС852', 'КУ932', 'ММ345', 'ВМ375', 'ЦМ445', 'ЬМ375', 'ЙЙ375', 'ЯХ375']   # унікальний параметр окремого обєкта ( серія та номер паспорта)
 
     group = [group_maker.make_person(x, shared_states[0])
@@ -74,3 +79,5 @@ if __name__ == "__main__":
     for index, person in enumerate(group):
         print("-"*20)
         print(person)
+
+    flyweight_factory.list_flyweights()

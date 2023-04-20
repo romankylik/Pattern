@@ -1,3 +1,7 @@
+import json
+import hashlib
+import pickle
+
 class Flyweight:
     """Клас легковеса, (стале значення для всіх обєктів, внутрішній стан)"""
     def __init__(self, shared_state):
@@ -24,15 +28,20 @@ class FlyWeightFactory:
 
     _flyweights: dict[str, Flyweight] = {}
 
-    def __init__(self, initial_flyweights) -> None:
 
-        for state, flyweight in initial_flyweights.items():
-            self._flyweights[state] = Flyweight(flyweight)
+    def get_hash(self, shared_st: dict):
+        hesh = json.dumps(shared_st)  # перетворюємо словник пайтона в обєкт json
+        hesh = hesh.encode()  # перетворюємо виществорений обєкт json в байтову строку
+        hesh = hashlib.md5(hesh)  # за допомогою бібліотеки hashlib закодовуємо в md5 (аргументом приймає тільки строку)
+        hesh = hesh.hexdigest()  # возвращает строку HEX, что представляет хеш
+        return hesh
+
 
     def get_flyweight(self, shared_st: dict) -> Flyweight:
-        key = list(shared_st.keys())[0]
+
+        key = self.get_hash(shared_st)
         if not self._flyweights.get(key):
-            self._flyweights[key] = Flyweight(shared_st[key])
+            self._flyweights[key] = Flyweight(shared_st)
         return self._flyweights[key]
 
     @property
@@ -42,7 +51,7 @@ class FlyWeightFactory:
     def list_flyweights(self) -> None:
         print(f"FlyweightFactory: Я маю {len(self._flyweights)} легковесов:")
         for key, value in self._flyweights.items():
-            print(f"Стан: {key}, легковес: {value}")
+            print(f"Стан( хеш легковеса): {key}, легковес: {value}")
 
 
 class Creation_study_group:
@@ -61,7 +70,7 @@ class Creation_study_group:
 
 
 if __name__ == "__main__":
-    flyweight_factory = FlyWeightFactory({"місто1": 'м.Київ'})
+    flyweight_factory = FlyWeightFactory()
     group_maker = Creation_study_group(flyweight_factory)
 
     shared_states = [{"місто1": 'м.Київ'}, {"місто2": 'м.Одеса'},{ "місто3": 'м.Львів'}]                      #- спільне( внутрішній стан)
